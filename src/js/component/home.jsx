@@ -5,8 +5,9 @@ const Home = () => {
   const [tasks, setTasks] = useState([]);
 
   const addTask = () => {
-    if (inputValue) {
-      setTasks([...tasks, inputValue]);
+    const trimValue = inputValue.trim();
+    if (trimValue) {
+      setTasks([...tasks, trimValue]);
       setInputValue("");
     }
   };
@@ -17,7 +18,7 @@ const Home = () => {
 
   return (
     <div className="container">
-      <h1>TodoList</h1>
+      <h1>Todo List</h1>
       <ul>
         <li>
           <input
@@ -32,15 +33,19 @@ const Home = () => {
             placeholder="Write your task here"
           />
         </li>
-        {tasks.map((item, index) => (
-          <li key={index} className="task-item">
-            <span>{item}</span>
-            <i
-              className="fa-solid fa-square-minus delete-icon"
-              onClick={() => deleteTask(index)}
-            ></i>
-          </li>
-        ))}
+        {tasks.length === 0 ? (
+          <li className="no-tasks-message">No tasks added. Please add a task.</li>
+        ) : (
+          tasks.map((item, index) => (
+            <li key={index} className="task-item">
+              <span>{item}</span>
+              <i
+                className="fa-solid fa-square-minus delete-icon"
+                onClick={() => deleteTask(index)}
+              ></i>
+            </li>
+          ))
+        )}
       </ul>
       <div>{tasks.length} tasks</div>
     </div>
